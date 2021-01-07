@@ -15,11 +15,7 @@ class Viewmodel @ViewModelInject constructor(
     val repository: Repository
 ) : ViewModel() {
 
-    lateinit var data : LiveData<List<ListItem>>
-
-    init {
-        val data = repository.readLists()
-    }
+    var data : LiveData<List<ListItem>> = repository.readLists()
 
     fun insertList(list: ListItem) {
         viewModelScope.launch(Dispatchers.IO) {
