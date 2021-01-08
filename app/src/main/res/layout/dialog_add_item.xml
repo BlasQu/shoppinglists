@@ -45,6 +45,7 @@
             android:layout_margin="20dp"
             android:hint="Shopping list name."
             app:hintTextColor="@color/black"
+            android:maxLines="1"
             android:paddingBottom="40dp"
             app:hintAnimationEnabled="false"
             app:hintEnabled="true"
@@ -54,6 +55,7 @@
                 android:id="@+id/input_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:maxLines="1"
                 android:background="@drawable/input_highlight"
                 android:maxLength="25"
                 android:textSize="20sp" />

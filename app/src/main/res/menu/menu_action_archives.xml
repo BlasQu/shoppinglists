@@ -5,17 +5,17 @@
     <item android:id="@+id/delete"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         app:showAsAction="always"
-        android:title=""/>
+        android:title="Delete"/>
 
     <item android:id="@+id/toStash"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_input_24"
-        android:title=""/>
+        android:title="To Stash"/>
 
     <item android:id="@+id/selectAll"
         android:icon="@drawable/ic_baseline_select_all_24"
         app:showAsAction="always"
-        android:title=""/>
+        android:title="Select All"/>
 
 
 </menu>

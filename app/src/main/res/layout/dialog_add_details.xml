@@ -56,6 +56,7 @@
             android:hint="Item name."
             app:hintTextColor="@color/black"
             android:paddingBottom="40dp"
+            android:maxLines="1"
             app:hintAnimationEnabled="false"
             app:hintEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/text_item">
@@ -64,6 +65,7 @@
                 android:id="@+id/input_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:maxLines="1"
                 android:background="@drawable/input_highlight"
                 android:maxLength="25"
                 android:textSize="20sp" />

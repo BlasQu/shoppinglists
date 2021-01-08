@@ -27,4 +27,7 @@ interface ShoppingListsDao {
 
     @Delete
     suspend fun deleteList(listItem: List<ListItem>)
+
+    @Query("SELECT * FROM lists order by itemId DESC")
+    fun testReadLists() : List<ListItem>
 }

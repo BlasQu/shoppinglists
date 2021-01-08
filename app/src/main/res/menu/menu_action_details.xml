@@ -5,12 +5,12 @@
     <item android:id="@+id/deleteDetails"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         app:showAsAction="always"
-        android:title=""/>
+        android:title="Delete"/>
 
     <item android:id="@+id/selectAllDetails"
         android:icon="@drawable/ic_baseline_select_all_24"
         app:showAsAction="always"
-        android:title=""/>
+        android:title="Select All"/>
 
 
 </menu>

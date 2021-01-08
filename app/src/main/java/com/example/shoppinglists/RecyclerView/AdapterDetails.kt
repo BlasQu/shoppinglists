@@ -17,6 +17,7 @@ import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
 import com.example.shoppinglists.Utils.AlertDialogs
 import com.google.android.gms.common.util.ArrayUtils.removeAll
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_details.view.*
 import kotlinx.android.synthetic.main.rv_item.view.*
@@ -151,21 +152,24 @@ class AdapterDetails (
                         when (item!!.itemId) {
                             R.id.deleteDetails -> {
 
-                                var currentItem = mainActivity.viewmodel.data.value!![mainActivity.viewmodel.currentDetails]
-                                val newData : MutableList<ListDetails> = mutableListOf()
-                                newData.addAll(data)
-                                for (selectedItem in selectedItems) {
-                                    newData.remove(selectedItem)
+                                if (selectedItems.isEmpty()) Snackbar.make(mainActivity.relLayout, "No items found to delete.", Snackbar.LENGTH_SHORT).show()
+                                else {
+                                    var currentItem = mainActivity.viewmodel.data.value!![mainActivity.viewmodel.currentDetails]
+                                    val newData: MutableList<ListDetails> = mutableListOf()
+                                    newData.addAll(data)
+                                    for (selectedItem in selectedItems) {
+                                        newData.remove(selectedItem)
+                                    }
+                                    val newData2: MutableList<ListDetails> = mutableListOf()
+                                    newData2.addAll(newData)
+                                    currentItem.details = newData2
+
+                                    mainActivity.viewmodel.updateList(currentItem)
+
+                                    selectedItems.clear()
+                                    allSelected = false
+                                    mainActivity.viewmodel.selectedItems2.postValue(0)
                                 }
-                                val newData2 : MutableList<ListDetails> = mutableListOf()
-                                newData2.addAll(newData)
-                                currentItem.details = newData2
-
-                                mainActivity.viewmodel.updateList(currentItem)
-
-                                selectedItems.clear()
-                                allSelected = false
-                                mainActivity.viewmodel.selectedItems2.postValue(0)
                             }
 
                             R.id.selectAllDetails -> {

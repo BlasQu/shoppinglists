@@ -17,6 +17,7 @@ import com.example.shoppinglists.Fragments.DetailsListsFragment
 import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
 import com.example.shoppinglists.Utils.AlertDialogs
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_details.view.*
 import kotlinx.android.synthetic.main.rv_item.view.*
@@ -140,7 +141,8 @@ class AdapterArchives (
                                 }
                                 mainActivity.viewmodel.result.postValue(false)
                             })
-                            AlertDialogs.dialog_confirm_delete(holder.itemView.context as MainActivity, selectedItems)
+                            if (selectedItems.isEmpty()) Snackbar.make(mainActivity.relLayout, "No items found to delete.", Snackbar.LENGTH_SHORT).show()
+                            else AlertDialogs.dialog_confirm_delete(holder.itemView.context as MainActivity, selectedItems)
                         }
 
                         R.id.toStash -> {
