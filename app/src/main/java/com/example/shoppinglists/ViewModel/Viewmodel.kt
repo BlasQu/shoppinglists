@@ -17,9 +17,15 @@ class Viewmodel @ViewModelInject constructor(
 
     var data : LiveData<List<ListItem>> = repository.readLists()
 
-    fun insertList(list: ListItem) {
+    fun insertList(listItem: ListItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertList(list)
+            repository.insertList(listItem)
+        }
+    }
+
+    fun deleteList(listItem: ListItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteList(listItem)
         }
     }
 

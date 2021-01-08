@@ -1,17 +1,29 @@
 package com.example.shoppinglists.RecyclerView
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.graphics.Color
+import android.os.Build
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglists.Data.ListItem
+import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
 import kotlinx.android.synthetic.main.rv_item.view.*
+import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
-class Adapter : RecyclerView.Adapter<Adapter.VH>() {
+class Adapter (
+        val mainActivity: MainActivity
+) : RecyclerView.Adapter<Adapter.VH>() {
+
+    private var multipleSelection = false
+    private var selectedAll = false
+    private var selectedItems = mutableListOf<ListItem>()
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 
     private val data = mutableListOf<ListItem>()
 
@@ -25,7 +37,7 @@ class Adapter : RecyclerView.Adapter<Adapter.VH>() {
         }
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
+            return oldList[oldItemPosition].itemId == newList[newItemPosition].itemId
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -40,7 +52,7 @@ class Adapter : RecyclerView.Adapter<Adapter.VH>() {
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.itemView.text_list_name.text = data[position].title
         holder.itemView.text_list_desc.text = data[position].date
-    }
+        }
 
     override fun getItemCount(): Int {
         return data.size

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shoppinglists.AlertDialogs
 import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
 import com.example.shoppinglists.RecyclerView.Adapter
@@ -24,7 +25,7 @@ class ShoppingListsFragment : Fragment(R.layout.fragment_shopping_lists) {
     }
 
     private fun setupRecyclerView() {
-        val adapter = Adapter()
+        val adapter = Adapter(actv)
         val divider = DividerItemDecoration(actv, DividerItemDecoration.VERTICAL)
         divider.setDrawable(ContextCompat.getDrawable(actv, R.drawable.rv_decoration_line)!!)
 
