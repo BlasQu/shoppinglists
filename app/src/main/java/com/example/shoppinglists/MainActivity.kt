@@ -3,6 +3,7 @@ package com.example.shoppinglists
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import com.example.shoppinglists.Fragments.ShoppingListsFragment
 import com.example.shoppinglists.Utils.AlertDialogs
 import com.example.shoppinglists.Utils.checkCurrentFragment
 import com.example.shoppinglists.ViewModel.Viewmodel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
+
         setupTabLayout()
         setupToolbar()
         setupButtons()
@@ -49,12 +52,14 @@ class MainActivity : AppCompatActivity() {
                 replace(R.id.fragment_container, ShoppingListsFragment(), "ShoppingListsFragment")
                 commit()
             }
+            supportActionBar!!.title = "Shopping lists"
         } else {
             supportFragmentManager.beginTransaction().apply {
                 setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
                 replace(R.id.fragment_container, ArchivedListsFragment(), "ArchivedListsFragment")
                 commit()
             }
+            supportActionBar!!.title = "Archived lists"
         }
         tablayout.animation = AnimationUtils.loadAnimation(this, R.anim.alpha_out).apply {
             tablayout.visibility = View.VISIBLE
@@ -70,33 +75,6 @@ class MainActivity : AppCompatActivity() {
             when (checkCurrentFragment.checkFragment(this)) {
                 1 -> AlertDialogs.dialog_add_item(this)
                 2 -> AlertDialogs.dialog_add_details(this)
-            }
-        }
-    }
-
-    private fun changeFragment() {
-        val fragment = supportFragmentManager.findFragmentByTag("ShoppingListsFragment")
-        if (fragment != null && fragment.isVisible) {
-            supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
-                replace(R.id.fragment_container, ArchivedListsFragment(), "ArchivedListsFragment")
-                commit()
-            }
-            toolbar.title = "Archived lists"
-            fab_addList.apply {
-                isClickable = false
-                hide()
-            }
-        } else {
-            supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
-                replace(R.id.fragment_container, ShoppingListsFragment(), "ShoppingListsFragment")
-                commit()
-            }
-            toolbar.title = "Shopping lists"
-            fab_addList.apply {
-                isClickable = true
-                show()
             }
         }
     }

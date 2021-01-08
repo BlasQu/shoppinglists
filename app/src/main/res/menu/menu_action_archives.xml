@@ -7,9 +7,9 @@
         app:showAsAction="always"
         android:title=""/>
 
-    <item android:id="@+id/toArchive"
+    <item android:id="@+id/toStash"
         app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_archive_24"
+        android:icon="@drawable/ic_baseline_input_24"
         android:title=""/>
 
     <item android:id="@+id/selectAll"

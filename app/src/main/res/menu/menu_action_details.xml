@@ -2,17 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/delete"
+    <item android:id="@+id/deleteDetails"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         app:showAsAction="always"
         android:title=""/>
 
-    <item android:id="@+id/toArchive"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_archive_24"
-        android:title=""/>
-
-    <item android:id="@+id/selectAll"
+    <item android:id="@+id/selectAllDetails"
         android:icon="@drawable/ic_baseline_select_all_24"
         app:showAsAction="always"
         android:title=""/>

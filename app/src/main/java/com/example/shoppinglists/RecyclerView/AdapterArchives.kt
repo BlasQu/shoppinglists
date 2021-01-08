@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglists.Data.ListItem
+import com.example.shoppinglists.Fragments.DetailsListsArchivesFragment
 import com.example.shoppinglists.Fragments.DetailsListsFragment
 import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
@@ -23,9 +24,9 @@ import kotlinx.android.synthetic.main.rv_itemdetails.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
-class Adapter (
+class AdapterArchives (
         val mainActivity: MainActivity
-) : RecyclerView.Adapter<Adapter.VH>() {
+) : RecyclerView.Adapter<AdapterArchives.VH>() {
 
     private var multiSelection = false
     private val selectedItems = mutableListOf<ListItem>()
@@ -37,7 +38,7 @@ class Adapter (
         fun setItemViewClickListener() {
                 mainActivity.supportFragmentManager.beginTransaction().apply {
                     setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
-                    replace(R.id.fragment_container, DetailsListsFragment(), "DetailsListsFragment")
+                    replace(R.id.fragment_container, DetailsListsArchivesFragment(), "DetailsListsArchivesFragment")
                     commit()
                 }
                 mainActivity.viewmodel.currentDetails = adapterPosition
@@ -107,7 +108,7 @@ class Adapter (
             if (!multiSelection){
             val actionMode = object : ActionMode.Callback {
                 override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                    mode!!.menuInflater.inflate(R.menu.menu_action, menu)
+                    mode!!.menuInflater.inflate(R.menu.menu_action_archives, menu)
                     return true
                 }
 
@@ -142,12 +143,12 @@ class Adapter (
                             AlertDialogs.dialog_confirm_delete(holder.itemView.context as MainActivity, selectedItems)
                         }
 
-                        R.id.toArchive -> {
+                        R.id.toStash -> {
                             val intList = mutableListOf<Int>()
                             for (id in selectedItems) {
                                 intList.add(id.itemId)
                             }
-                            mainActivity.viewmodel.updateToArchive(intList)
+                            mainActivity.viewmodel.updateToStash(intList)
                             selectedItems.clear()
                             allSelected = false
 

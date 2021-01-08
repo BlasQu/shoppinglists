@@ -66,4 +66,39 @@ object AlertDialogs {
             dialog.dismiss()
         }
     }
+
+    fun dialog_confirm_delete(context: MainActivity, items: List<ListItem>) {
+        val builder = AlertDialog.Builder(context)
+        builder.apply {
+            setCancelable(false)
+            setView(R.layout.dialog_confirm_delete)
+        }
+        val dialog = builder.create()
+        dialog.show()
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(context.resources.getColor(android.R.color.transparent)))
+
+        val itemsToDelete = items
+
+        dialog.btn_confirm.setOnClickListener {
+            //itemsToDelete.forEach { item -> context.viewmodel.deleteList(item) }
+            context.viewmodel.deleteList(items)
+            context.viewmodel.selectedItems2.postValue(0)
+            context.viewmodel.result.postValue(true)
+            dialog.dismiss()
+        }
+
+        dialog.btn_cancel.setOnClickListener {
+            context.viewmodel.result.postValue(false)
+            dialog.dismiss()
+        }
+    }
+
+    fun delete_details(context: MainActivity, items: List<ListDetails>, item: ListItem) {
+
+        val itemsToDelete = items
+        val newItem = ListItem(item.itemId, item.title, item.date, itemsToDelete, false)
+        context.viewmodel.updateList(newItem)
+
+    }
 }

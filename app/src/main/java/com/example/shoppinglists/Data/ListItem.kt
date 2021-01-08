@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class ListItem(@PrimaryKey(autoGenerate = true) val itemId: Int,
                     val title: String,
                     val date: String,
-                    val details: List<ListDetails> = emptyList<ListDetails>()
+                    var details: List<ListDetails> = emptyList<ListDetails>(),
+                    var stored: Boolean = false
 )

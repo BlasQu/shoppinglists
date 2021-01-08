@@ -14,7 +14,13 @@ class Repository @Inject constructor(
 
     fun readLists() : LiveData<List<ListItem>> = dao.readLists()
 
-    suspend fun deleteList(listItem: ListItem) = dao.deleteList(listItem)
+    fun readArchiveLists() : LiveData<List<ListItem>> = dao.readArchiveLists()
+
+    suspend fun deleteList(listItem: List<ListItem>) = dao.deleteList(listItem)
 
     suspend fun updateList(listItem: ListItem) = dao.updateList(listItem)
+
+    suspend fun updateToArchive(listItem: List<Int>) = dao.updateToArchive(listItem)
+
+    suspend fun updateToStash(listItem: List<Int>) = dao.updateToStash(listItem)
 }

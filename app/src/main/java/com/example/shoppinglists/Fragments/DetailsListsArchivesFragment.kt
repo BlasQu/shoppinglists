@@ -16,7 +16,7 @@ import com.example.shoppinglists.RecyclerView.AdapterDetails
 import com.example.shoppinglists.RecyclerView.AdapterDetailsArchives
 import kotlinx.android.synthetic.main.fragment_details_lists.*
 
-class DetailsListsFragment : Fragment(R.layout.fragment_details_lists) {
+class DetailsListsArchivesFragment : Fragment(R.layout.fragment_details_lists) {
     lateinit var actv : MainActivity
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +26,7 @@ class DetailsListsFragment : Fragment(R.layout.fragment_details_lists) {
     }
 
     private fun setupRecyclerView() {
-        val adapter = AdapterDetails(actv)
+        val adapter = AdapterDetailsArchives(actv)
         val decoration = DividerItemDecoration(actv, DividerItemDecoration.VERTICAL)
         decoration.setDrawable(actv.resources.getDrawable(R.drawable.rv_decoration_line))
 
@@ -36,8 +36,8 @@ class DetailsListsFragment : Fragment(R.layout.fragment_details_lists) {
             addItemDecoration(decoration)
         }
 
-        actv.viewmodel.data.observe(actv, {
-            if (it.isNotEmpty()) adapter.submitData(actv.viewmodel.data.value!![actv.viewmodel.currentDetails].details)
+        actv.viewmodel.archivedata.observe(actv, {
+            if (it.isNotEmpty()) adapter.submitData(actv.viewmodel.archivedata.value!![actv.viewmodel.currentDetails].details)
             else adapter.submitData(emptyList())
         })
     }

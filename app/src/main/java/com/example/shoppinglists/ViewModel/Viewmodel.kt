@@ -16,7 +16,10 @@ class Viewmodel @ViewModelInject constructor(
 ) : ViewModel() {
 
     var data: LiveData<List<ListItem>> = repository.readLists()
+    var archivedata: LiveData<List<ListItem>> = repository.readArchiveLists()
     var currentDetails: Int = 0
+    var selectedItems2 = MutableLiveData<Int>(0)
+    var result = MutableLiveData<Boolean>(false)
 
     fun insertList(listItem: ListItem) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -24,7 +27,7 @@ class Viewmodel @ViewModelInject constructor(
         }
     }
 
-    fun deleteList(listItem: ListItem) {
+    fun deleteList(listItem: List<ListItem>) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteList(listItem)
         }
@@ -33,6 +36,18 @@ class Viewmodel @ViewModelInject constructor(
     fun updateList(listItem: ListItem) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateList(listItem)
+        }
+    }
+
+    fun updateToArchive(listItems: List<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateToArchive(listItems)
+        }
+    }
+
+    fun updateToStash(listItems: List<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateToStash(listItems)
         }
     }
 
