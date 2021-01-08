@@ -78,11 +78,12 @@ object AlertDialogs {
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(context.resources.getColor(android.R.color.transparent)))
 
-        val itemsToDelete = items
+        val itemsToDelete = mutableListOf<ListItem>()
+        itemsToDelete.addAll(items)
 
         dialog.btn_confirm.setOnClickListener {
             //itemsToDelete.forEach { item -> context.viewmodel.deleteList(item) }
-            context.viewmodel.deleteList(items)
+            context.viewmodel.deleteList(itemsToDelete)
             context.viewmodel.selectedItems2.postValue(0)
             context.viewmodel.result.postValue(true)
             dialog.dismiss()
