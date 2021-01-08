@@ -4,5 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.FilenameFilter
 
-@Entity(tableName = "listDetails")
-data class ListDetails(@PrimaryKey(autoGenerate = true) val detailsId: Int, val item: String, val amount: Int)
+data class ListDetails(val detailsId: Int, val item: String, val amount: Int, var done: Boolean)

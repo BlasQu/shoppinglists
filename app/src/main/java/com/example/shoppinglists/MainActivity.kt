@@ -1,27 +1,22 @@
 package com.example.shoppinglists
 
-import android.graphics.PorterDuff
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.widget.Toast
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
-import com.example.shoppinglists.Data.ListItem
+import androidx.core.view.get
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.example.shoppinglists.Fragments.ArchivedListsFragment
 import com.example.shoppinglists.Fragments.ShoppingListsFragment
-import com.example.shoppinglists.Room.ShoppingListsDatabase
-import com.example.shoppinglists.ViewModel.Repository
+import com.example.shoppinglists.Utils.AlertDialogs
+import com.example.shoppinglists.Utils.checkCurrentFragment
 import com.example.shoppinglists.ViewModel.Viewmodel
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_archived_lists.*
 import kotlinx.android.synthetic.main.toolbar.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -42,9 +37,40 @@ class MainActivity : AppCompatActivity() {
         setupButtons()
     }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.findFragmentByTag("DetailsListsFragment") != null) onSupportNavigateUp()
+        else super.onBackPressed()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        if (fab_addList.isOrWillBeShown) {
+            supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
+                replace(R.id.fragment_container, ShoppingListsFragment(), "ShoppingListsFragment")
+                commit()
+            }
+        } else {
+            supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
+                replace(R.id.fragment_container, ArchivedListsFragment(), "ArchivedListsFragment")
+                commit()
+            }
+        }
+        tablayout.animation = AnimationUtils.loadAnimation(this, R.anim.alpha_out).apply {
+            tablayout.visibility = View.VISIBLE
+            interpolator = FastOutSlowInInterpolator()
+            duration = 250
+        }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        return super.onSupportNavigateUp()
+    }
+
     private fun setupButtons() {
         fab_addList.setOnClickListener {
-            AlertDialogs.dialog_add_item(this)
+            when (checkCurrentFragment.checkFragment(this)) {
+                1 -> AlertDialogs.dialog_add_item(this)
+                2 -> AlertDialogs.dialog_add_details(this)
+            }
         }
     }
 
@@ -57,6 +83,10 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
             toolbar.title = "Archived lists"
+            fab_addList.apply {
+                isClickable = false
+                hide()
+            }
         } else {
             supportFragmentManager.beginTransaction().apply {
                 setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
@@ -64,6 +94,10 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
             toolbar.title = "Shopping lists"
+            fab_addList.apply {
+                isClickable = true
+                show()
+            }
         }
     }
 
@@ -74,7 +108,32 @@ class MainActivity : AppCompatActivity() {
         }
         tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                changeFragment()
+                when (tab!!.position) {
+                    0 -> {
+                        supportFragmentManager.beginTransaction().apply {
+                            setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
+                            replace(R.id.fragment_container, ShoppingListsFragment(), "ShoppingListsFragment")
+                            commit()
+                        }
+                        toolbar.title = "Shopping lists"
+                        fab_addList.apply {
+                            isClickable = true
+                            show()
+                        }
+                    }
+                    1 -> {
+                        supportFragmentManager.beginTransaction().apply {
+                            setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
+                            replace(R.id.fragment_container, ArchivedListsFragment(), "ArchivedListsFragment")
+                            commit()
+                        }
+                        toolbar.title = "Archived lists"
+                        fab_addList.apply {
+                            isClickable = false
+                            hide()
+                        }
+                    }
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -88,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Shopping Lists"
+        supportActionBar!!.title = "Shopping lists"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(getColor(R.color.white))

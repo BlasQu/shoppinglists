@@ -8,10 +8,13 @@ import com.example.shoppinglists.Data.ListItem
 interface ShoppingListsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertList(listItem : ListItem = ListItem(0, "Hello", "d"))
+    suspend fun insertList(listItem : ListItem)
 
-    @Query("SELECT * FROM lists")
+    @Query("SELECT * FROM lists order by itemId DESC")
     fun readLists() : LiveData<List<ListItem>>
+
+    @Update
+    suspend fun updateList(listItem: ListItem)
 
     @Delete
     suspend fun deleteList(listItem: ListItem)

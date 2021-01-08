@@ -3,13 +3,17 @@ package com.example.shoppinglists.RecyclerView
 import android.graphics.Color
 import android.os.Build
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglists.Data.ListItem
+import com.example.shoppinglists.Fragments.DetailsListsFragment
 import com.example.shoppinglists.MainActivity
 import com.example.shoppinglists.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.rv_item.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -18,11 +22,25 @@ class Adapter (
         val mainActivity: MainActivity
 ) : RecyclerView.Adapter<Adapter.VH>() {
 
-    private var multipleSelection = false
-    private var selectedAll = false
-    private var selectedItems = mutableListOf<ListItem>()
-
-    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                mainActivity.supportFragmentManager.beginTransaction().apply {
+                    setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
+                    replace(R.id.fragment_container, DetailsListsFragment(), "DetailsListsFragment")
+                    commit()
+                }
+                mainActivity.viewmodel.currentDetails = adapterPosition
+                mainActivity.tablayout.animation = AnimationUtils.loadAnimation(mainActivity, R.anim.alpha_in).apply {
+                    interpolator = FastOutSlowInInterpolator()
+                    duration = 250
+                    mainActivity.tablayout.visibility = View.GONE
+                }
+                mainActivity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                mainActivity.toolbar.title = "Shopping list details"
+            }
+        }
+    }
 
 
     private val data = mutableListOf<ListItem>()
